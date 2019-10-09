@@ -25,8 +25,10 @@ SECRET_KEY = '=hg26njfv7o%(^zn8wtzzsbsd9g0p=eyf27-k+(mt2trp_a+t='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('PS1')]
-
+# The video said to use C9_HOST, but it's not working. So after a chat with a 
+# tutor I decided to set the AWSC9_HOST in .bashrc, and use it instead - at 
+# least until further direction is given
+ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
 
 # Application definition
 
@@ -119,3 +121,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
