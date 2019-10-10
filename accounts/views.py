@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import auth, messages
-from accounts.forms import UserLoginForm
+
+# Only allow logged in users to access the system
+from django.contrib.auth.decorators import login_required
+from accounts.forms import UserLoginForm, UserRegistrationForm
 
 
 # Create your views here.
@@ -11,18 +14,26 @@ def index(request):
     
     return render(request, 'index.html')
 
+# @login_required will first check if the user is logged in. If not they will
+# be re-directed to the login page
 
+@login_required
 def logout(request):
     
     """ Log the user out """
     auth.logout(request)
     messages.success(request, "You have been successfully logged out!")
-    
     return redirect(reverse('index'))
     
     
 def login(request):
     
+    """ If the user is already logged in, send them back to index page """
+        
+    if request.user.is_authenticated:
+        return redirect(reverse('index'))
+    
+    """ If user has sent login details, validate them """
     if request.method == "POST":
         login_form = UserLoginForm(request.POST)
         
@@ -34,6 +45,7 @@ def login(request):
             if user:
                 auth.login(user=user, request=request)
                 messages.success(request, "You have successfully logged in!")
+                return redirect(reverse('index'))
             else:
                 login_form.add_error(None, "Your user name or password is incorrect")
     
@@ -41,12 +53,21 @@ def login(request):
         
         """ Return a login page """
     
-        # Set user login form = instance of UserLoginForm - notice () here
+        # Set user login form = instance of UserLoginForm (see forms.py), 
+        # notice the "()"" here, and display for user to log in
     
         login_form = UserLoginForm()
     
     return render(request, 'login.html', {"login_form": login_form})
 
+# User registration view
 
+def registration(request):
+    
+    registration_form = UserRegistrationForm()
+    
+    """ Render the registration page """
+    return render(request, 'registration.html', {
+        'registration_form': registration_form})
 
 
