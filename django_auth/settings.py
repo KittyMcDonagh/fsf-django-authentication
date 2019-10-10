@@ -28,6 +28,7 @@ DEBUG = True
 # The video said to use C9_HOST, but it's not working. So after a chat with a 
 # tutor I decided to set the AWSC9_HOST in .bashrc, and use it instead - at 
 # least until further direction is given
+
 ALLOWED_HOSTS = [os.environ.get('AWSC9_HOST')]
 
 # Application definition
