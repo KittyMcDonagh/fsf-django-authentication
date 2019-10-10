@@ -3,6 +3,7 @@ from django.contrib import auth, messages
 
 # Only allow logged in users to access the system
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from accounts.forms import UserLoginForm, UserRegistrationForm
 
 
@@ -59,15 +60,50 @@ def login(request):
         login_form = UserLoginForm()
     
     return render(request, 'login.html', {"login_form": login_form})
+    
+    
 
 # User registration view
 
 def registration(request):
     
-    registration_form = UserRegistrationForm()
+    """ If the user is already logged in, send them back to index page """
+        
+    if request.user.is_authenticated:
+        return redirect(reverse('index'))
+    
+    """ If user has sent login details, validate them """
+    if request.method == "POST":
+        registration_form = UserRegistrationForm(request.POST)
+        
+        if registration_form.is_valid():
+            registration_form.save()
+            
+            user = auth.authenticate(username=request.POST['username'],
+                                     password=request.POST['password1'])
+            
+            if user:
+                auth.login(user=user, request=request)
+                messages.success(request, "You have successfully registered!")
+                return redirect(reverse('index'))
+            else:
+                messages.error(request, "Unable to register your account at this time")
+                
+    else:
+        registration_form = UserRegistrationForm()
     
     """ Render the registration page """
     return render(request, 'registration.html', {
         'registration_form': registration_form})
 
+
+def user_profile(request):
+    
+    """ User's Profile page """
+    
+    user = User.objects.get(email=request.user.email)
+    
+    return render(request, 'profile.html', {'profile': user})
+    
+    
 
