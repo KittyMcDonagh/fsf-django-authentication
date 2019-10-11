@@ -1,27 +1,28 @@
 <html>
-    <head>
-        <!-- This will allow us to change the title of the page depending on
+
+<head>
+    <!-- This will allow us to change the title of the page depending on
              the user options -->
-        <title>{% block page_title %}{% endblock %}</title>
-    </head>
-    
-    <body>
-        <h1>{% block page_heading %}{% endblock %}</h1>
-        
-        <nav>
+    <title>{% block page_title %}{% endblock %}</title>
+</head>
+
+<body>
+    <h1>{% block page_heading %}{% endblock %}</h1>
+
+    <nav>
         <ul>
-            
+
             {% if user.is_authenticated %}
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+
             {% else %}
-            
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'registration' %}">Register</a></li>
-                
+
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'registration' %}">Register</a></li>
+
             {% endif %}
-            
+
         </ul>
     </nav>
     <hr>
@@ -30,15 +31,14 @@
     <div>
         <ul>
             {% for message in messages %}
-                <li>{{ message }}</li>
+            <li>{{ message }}</li>
             {% endfor%}
         </ul>
     </div>
-    {% endif %}
+    {% endif %} 
     
     {% block content %}{% endblock %}
-    
-    </body>
+
+</body>
+
 </html>
-
-
