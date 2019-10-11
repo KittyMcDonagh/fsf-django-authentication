@@ -125,4 +125,34 @@ STATIC_URL = '/static/'
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# TLS = Form of email encryption which is used by gmail
+
+EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
+
+# smtp = Protocol used to send emails
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_ADDRESS")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_PORT = 587
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
