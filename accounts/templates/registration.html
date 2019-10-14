@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+<!-- To enable us to import the bootstrap tags  -->
+
+{% load bootstrap_tags %}
 
 {% block page_title %}Registration Page{% endblock %}
  
@@ -12,9 +15,11 @@
 <form method="POST">
         
     {% csrf_token %}
-    {{ registration_form.as_p }}
     
-    <button type="submit">Register</button>
+    <!-- Pass form to bootstrap to render it with bootstrap styling -->
+    {{ registration_form | as_bootstrap }}
+    
+    <button type="submit" class="btn btn-info">Submit</button>
         
 </form>
 
